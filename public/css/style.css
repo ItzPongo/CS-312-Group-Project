@@ -1,0 +1,67 @@
+/* body style */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+/* main container for the form and content */
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px
+}
+
+/* header 1 style */
+h1 {
+  text-align: center;
+}
+
+/* form layout style */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Share the styling for the inputs, select, and button */
+input, select, button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* main button style */
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+/* button hover style/effect */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* filter section style */
+.filter {
+  margin: 20px 0;
+}
+
+/* expense-list container style */
+#expenses-list {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: scroll;
+  border-top: 1px solid #ccc;
+}
+
+/* each expense-list item style */
+#expensees-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}

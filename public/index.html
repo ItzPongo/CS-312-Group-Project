@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset = "UTF-8"/>
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+  <title>Expense Tracker</title>
+  <!-- link to the external .css style sheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+     <!-- main container for the content -->
+    <div class="container">
+      <!-- page title -->
+      <h1>Expense Tracker</h1>
+      <!-- user expenses input form -->
+      <form id="expenses-form">
+        <!-- input to store the users expenses amount -->
+        <input type = "number" id = "amount" placeholder = "$ Amount" required />
+        <!-- input to store the users expenses date -->
+        <input type = "date" id = "date" required />
+        <!-- dropdown to select the users expense category -->
+        <select id = "category" required>
+          <option value = "">Select Category</option>
+          <option value = "Food">Food</option>
+          <option value = "Gas">Gas</option>
+          <option value = "Rent/Mortgage">Rent</option>
+          <option value = "Other">Other</option>
+        </select>
+        <!-- input where the user can add a description, which is optional -->
+        <input type = "text" id = "description" placeholder = "(optional) Description" />
+        <!-- submit button so the user can add the expense -->
+        <button type = "submit">Add Expense</button>
+      </form>
+      <!-- page filter section for category filtering -->
+      <div class="filter">
+        <h3>Filter by: </h3>
+        <select id = "filter-category">
+          <option value = "All">All Categories</option>
+          <option value = "Food">Food</option>
+          <option value = "Gas">Gas</option>
+          <option value = "Rent/Mortgage">Rent</option>
+          <option value = "Other">Other</option>
+        </select>
+      </div>
+      <!-- display the expenses-list -->
+      <ul id = "expenses-list"></ul>
+    </div>
+    <!-- link to the external .js file -->
+    <script src ="js/script.js" defer></script>
+  </body>
+  </html>
