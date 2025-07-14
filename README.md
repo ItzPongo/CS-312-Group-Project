@@ -14,7 +14,7 @@ viewing and filtering logged expenses.
 ## Folder structure
 
 ```bash
-project-folder/
+CS-312-Group-Project/
 ├── public/
 │   ├── index.html          # Main UI
 │   ├── css/
