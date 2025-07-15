@@ -18,7 +18,7 @@ viewing and filtering logged expenses.
 CS-312-Group-Project/
 ├── public/
 │   ├── index.html          # Main Homepage
-|   ├── weeksum.html        # Weekly Summary Page
+│   ├── weeksum.html        # Weekly Summary Page
 │   ├── css/
 │   │   └── style.css       # Styling Sheet
 │   └── js/
