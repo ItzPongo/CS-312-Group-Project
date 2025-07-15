@@ -6,6 +6,13 @@ const filter = document.getElementById( 'filter-category' );
 // empty array to store all expense records
 let expenses = [];
 
+// Load saved expenses if available
+const savedExpenses = localStorage.getItem('expenses');
+if (savedExpenses) {
+  expenses = JSON.parse(savedExpenses);
+  renderExpenses();
+}
+
 // event listener for form submissions
 form.addEventListener( 'submit', function (e) {
   // prevent any default for submission
@@ -21,6 +28,9 @@ form.addEventListener( 'submit', function (e) {
   const expense = { amount, date, category, description };
   // adds new expenses to array
   expenses.push( expense );
+
+  // Save updated expenses to localStorage
+  localStorage.setItem('expenses', JSON.stringify(expenses));
 
   // clear form inputs
   form.reset();
@@ -51,4 +61,11 @@ function renderExpenses() {
     // add listItem to the expense(s) list
     list.appendChild( listItem );
   } );
+}
+
+// go to the weekly report page
+function goToWeeklyExpensePage() {
+	// for now, store the expenses in an array until db setup
+	localStorage.setItem('expenses', JSON.stringify(expenses));
+	window.location.href = 'weeksum.html';
 }
