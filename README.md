@@ -23,7 +23,7 @@ CS-312-Group-Project/
 │   │   └── style.css       # Styling Sheet
 │   └── js/
 │       ├── script.js       # Logic for Homepage
-|       └── weeksum.js      # Logic for Weekly Summary
+│       └── weeksum.js      # Logic for Weekly Summary
 ├── server.js               # Express server setup
 └── package.json            # Node dependencies
 ```
