@@ -65,3 +65,9 @@ button:hover {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
+
+/* button to the weekly summary page */
+.weekly-sum {
+  text-align: center;
+  margin-top: 20px;
+}
