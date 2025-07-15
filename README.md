@@ -8,6 +8,7 @@ viewing and filtering logged expenses.
 - Add expenses by filling out amount, date and category with an optional description
 - Filter expenses by category
 - Shows a scrollable list of all expenses entered
+- Find out total spending for the current week
 
 ---
 
@@ -16,11 +17,13 @@ viewing and filtering logged expenses.
 ```bash
 CS-312-Group-Project/
 ├── public/
-│   ├── index.html          # Main UI
+│   ├── index.html          # Main Homepage
+|   ├── weeksum.html        # Weekly Summary Page
 │   ├── css/
-│   │   └── style.css       # Styling
+│   │   └── style.css       # Styling Sheet
 │   └── js/
-│       └── script.js       # Logic
+│       ├── script.js       # Logic for Homepage
+|       └── weeksum.js      # Logic for Weekly Summary
 ├── server.js               # Express server setup
 └── package.json            # Node dependencies
 ```
