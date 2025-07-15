@@ -1,4 +1,4 @@
-# CS-312-Group-Project: Expense Tracker Website
+# CS 312 Group 1 Project: Expense Tracker Website
 A simple expense tracking application incorporating HTML, CSS, and JS along with running a server through Node.js & Express. Users can log expenses by the $ amount, date, category, and description, as well as
 viewing and filtering logged expenses.
 
@@ -15,7 +15,7 @@ viewing and filtering logged expenses.
 ## Folder structure
 
 ```bash
-CS-312-Group-Project/
+Project_Group_1_Expense_Tracking_Website/
 ├── public/
 │   ├── index.html          # Main Homepage
 │   ├── weeksum.html        # Weekly Summary Page
@@ -35,7 +35,7 @@ CS-312-Group-Project/
 ### Clone the repository
 
 ```bash
-git clone https://github.com/ItzPongo/CS-312-Group-Project.git
+git clone https://github.com/ItzPongo/Project_Group_1_Expense_Tracking_Website.git
 cd CS-312-Group-Project
 ```
 
