@@ -36,7 +36,7 @@ Project_Group_1_Expense_Tracking_Website/
 
 ```bash
 git clone https://github.com/ItzPongo/Project_Group_1_Expense_Tracking_Website.git
-cd CS-312-Group-Project
+cd Project_Group_1_Expense_Tracking_Website
 ```
 
 ### Install the dependencies
