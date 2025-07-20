@@ -71,3 +71,32 @@ button:hover {
   text-align: center;
   margin-top: 20px;
 }
+
+/* Style for both the expense table and weekly summary table */
+#expenses-table,
+#weekly-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+#expenses-table th,
+#expenses-table td,
+#weekly-table th,
+#weekly-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+#expenses-table th,
+#weekly-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+#expenses-table tbody tr:hover,
+#weekly-table tbody tr:hover {
+  background-color: #e8f0fe;
+}
