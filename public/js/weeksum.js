@@ -3,52 +3,83 @@ function backHome() {
 	window.location.href = 'index.html';
 }
 
-// calculate the total weekly expenses
-function calcWeeklyTotal(expenses) {
+// calculate the total weekly expenses and category breakdown
+function calcWeeklyExpenses(expenses) {
 	// get the current date and time
 	const now = new Date();
-	
-	// Represents the start of the week
+
+	// Represents the start of the week (most recent Sunday at 12:00 AM)
 	const startWeek = new Date(now);
-	
-	// Set the start of the week to the most recent Sunday
 	startWeek.setDate(now.getDate() - now.getDay());
-	// Set time to 00:00:00.000 -> 12 AM
-	startWeek.setHours(0, 0, 0, 0);
-	
-	// Represents the end of the week
+	startWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+
+	// Represents the end of the week (upcoming Sunday)
 	const endWeek = new Date(startWeek);
-	// add 7 days to the start of the week
 	endWeek.setDate(startWeek.getDate() + 7);
+
+	// Object to track total spent per category
+	const categoryTotals = {};
 	
-	// Total variable to keep track of expenses
+	// Variable to keep track of total spending this week
 	let total = 0;
-	
-	// Loop through the expenses in expense array
-	for( const expense of expenses ) {
-		// convert the expense date into object
+
+	// Loop through all expenses
+	for (const expense of expenses) {
+		// Convert expense date to Date object
 		const expenseDate = new Date(expense.date);
-		
-		// Check if the expense date falls within this week
-		if( expenseDate >= startWeek && expenseDate < endWeek ) {
-			// Add expense to the Total
-			total += parseFloat(expense.amount);
+
+		// Check if expense falls within this week
+		if (expenseDate >= startWeek && expenseDate < endWeek) {
+			const amount = parseFloat(expense.amount);
+			total += amount;
+
+			// Add to category total
+			if (!categoryTotals[expense.category]) {
+				categoryTotals[expense.category] = 0;
+			}
+			categoryTotals[expense.category] += amount;
 		}
 	}
-	
-	// return Total
-	return total;
+
+	// Return both the total and the breakdown by category
+	return { total, categoryTotals };
 }
 
 // On page load
-document.addEventListener('DOMContentLoaded', () => {
-  const rawData = localStorage.getItem('expenses');
-  if (!rawData) {
-    document.getElementById('week-total').textContent = "No data available.";
-    return;
-  }
+document.addEventListener('DOMContentLoaded', async () => {
+	// Get reference to elements
+	const totalEl = document.getElementById('week-total');
+	const tableBody = document.querySelector('#weekly-table tbody');
 
-  const expenses = JSON.parse(rawData);
-  const total = calcWeeklyTotal(expenses);
-  document.getElementById('week-total').textContent = `$${total.toFixed(2)} this week`;
+	try {
+		// Fetch all expenses from the backend API
+		const res = await fetch('/api/expenses');
+		if (!res.ok) throw new Error('Failed to fetch expenses from server');
+
+		// Convert response to JSON
+		const expenses = await res.json();
+
+		// Calculate total and category breakdown for the current week
+		const { total, categoryTotals } = calcWeeklyExpenses(expenses);
+
+		// Display the total spent this week
+		totalEl.textContent = `You spent $${total.toFixed(2)} this week`;
+
+		// Clear previous table rows
+		tableBody.innerHTML = '';
+
+		// Populate table with category-wise totals
+		for (const [category, amount] of Object.entries(categoryTotals)) {
+			const row = document.createElement('tr');
+			row.innerHTML = `
+				<td>${category}</td>
+				<td>$${amount.toFixed(2)}</td>
+			`;
+			tableBody.appendChild(row);
+		}
+	} catch (err) {
+		// Handle fetch or processing errors
+		console.error('Error loading weekly expenses:', err);
+		totalEl.textContent = 'Unable to load weekly data.';
+	}
 });
