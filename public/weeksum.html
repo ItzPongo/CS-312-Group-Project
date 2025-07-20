@@ -4,20 +4,32 @@
   <meta charset = "UTF-8"/>
   <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
   <title>Weekly Expense Summary</title>
-  <!-- link to the external .css style sheet -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <!-- main container for the content -->
-    <div class="container">
-	  <!-- Page title -->
-	  <h1>Weekly Summary</h1>
-	  <!-- Show the total amount spent this week -->
-	  <p id="week-total">$0.00 this week</p>
-	  <!-- Button to go back to the index.html -->
-	  <button onclick="backHome()">Back to Home</button>
-	</div>
-	<!-- link to the external .js file -->
-	<script src="js/weeksum.js" defer></script>
+  <div class="container">
+    <h1>Weekly Summary</h1>
+
+    <!-- Total weekly spending -->
+    <p id="week-total">Loading...</p>
+
+    <!-- Table of weekly expenses by category -->
+    <table id="weekly-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount Spent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be added by JS -->
+      </tbody>
+    </table>
+
+    <!-- Back to home button -->
+    <button onclick="backHome()">Back to Home</button>
+  </div>
+
+  <script src="js/weeksum.js" defer></script>
 </body>
 </html>
