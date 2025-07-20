@@ -1,71 +1,84 @@
-// references to HTML documents
-const form = document.getElementById( 'expenses-form' );
-const list = document.getElementById( 'expenses-list' );
-const filter = document.getElementById( 'filter-category' );
+// server.js
+const form = document.getElementById('expenses-form');
+const list = document.getElementById('expenses-list');
+const filter = document.getElementById('filter-category');
 
-// empty array to store all expense records
 let expenses = [];
 
-// Load saved expenses if available
-const savedExpenses = localStorage.getItem('expenses');
-if (savedExpenses) {
-  expenses = JSON.parse(savedExpenses);
-  renderExpenses();
+// Load expenses from PostgreSQL via API
+async function loadExpenses() {
+  // try and catch for error handling so it doesn't silently break
+  try {
+    const res = await fetch('/api/expenses');
+    expenses = await res.json();
+    renderExpenses();
+  } catch (err) {
+    console.error('Failed to load expenses:', err);
+  }
 }
 
-// event listener for form submissions
-form.addEventListener( 'submit', function (e) {
-  // prevent any default for submission
+// Handle form submission to add a new expense
+form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  // input values from the form
-  const amount = document.getElementById( 'amount' ).value;
-  const date = document.getElementById( 'date' ).value;
-  const category = document.getElementById( 'category' ).value;
-  const description = document.getElementById( 'description' ).value;
+  const amount = document.getElementById('amount').value;
+  const date = document.getElementById('date').value;
+  const category = document.getElementById('category').value;
+  const description = document.getElementById('description').value;
 
-  // new expense object
   const expense = { amount, date, category, description };
-  // adds new expenses to array
-  expenses.push( expense );
 
-  // Save updated expenses to localStorage
-  localStorage.setItem('expenses', JSON.stringify(expenses));
+  await fetch('/api/expenses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(expense),
+  });
 
-  // clear form inputs
+  await loadExpenses();
   form.reset();
-  // render the exepense(s) list with any new expenses
-  renderExpenses();
-} );
+});
 
-// event listenter for category filter changes
-filter.addEventListener( 'change', renderExpenses );
+// Filter event listener
+filter.addEventListener('change', renderExpenses);
 
-// render the expense(s) list based on the selected category
+// Render the expense list by category
 function renderExpenses() {
   const selectedCategory = filter.value;
-  list.innerHTML = "";
+  const tbody = document.querySelector('#expenses-table tbody');
+  tbody.innerHTML = ""; // Clear previous rows
 
-  // if "All" gets selected, display all expenses
-  // if "All" isn't selected, filter by the selected category
   const filteredExpenses = selectedCategory === 'All'
     ? expenses
-    : expenses.filter( exp => exp.category === selectedCategory );
+    : expenses.filter(exp => exp.category === selectedCategory);
 
-  // create listItem for any filtered expense
-  // append listItem to the list
-  filteredExpenses.forEach( exp => {
-    const listItem = document.createElement( 'li' );
-    // format for each expense entry
-    listItem.textContent = `${exp.date} - $${exp.amount} [${exp.category}] ${exp.description}`;
-    // add listItem to the expense(s) list
-    list.appendChild( listItem );
-  } );
+  filteredExpenses.forEach(exp => {
+    const dateObj = new Date(exp.date);
+    const formattedDate = dateObj.toLocaleDateString('en-US');
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${formattedDate}</td>
+      <td>${exp.category}</td>
+      <td><a href="expense.html?id=${exp.id}">$${parseFloat(exp.amount).toFixed(2)}</a></td>
+    `;
+    tbody.appendChild(row);
+});
+
 }
 
-// go to the weekly report page
+
+// Page navigation
 function goToWeeklyExpensePage() {
-	// for now, store the expenses in an array until db setup
-	localStorage.setItem('expenses', JSON.stringify(expenses));
-	window.location.href = 'weeksum.html';
+  window.location.href = 'weeksum.html';
 }
+
+function goToMonthlyExpensePage() {
+  window.location.href = 'monthly.html';
+}
+
+// Expose page navigation to HTML
+window.goToWeeklyExpensePage = goToWeeklyExpensePage;
+window.goToMonthlyExpensePage = goToMonthlyExpensePage;
+
+// Initial load
+loadExpenses();
