@@ -1,73 +1,79 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-  <meta charset = "UTF-8"/>
-  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Expense Tracker</title>
-  <!-- link to the external .css style sheet -->
+  <!-- Link to external CSS stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <!-- main container for the content -->
-    <div class="container">
-      <!-- page title -->
-      <h1>Expense Tracker</h1>
-      <!-- user expenses input form -->
-      <form id="expenses-form">
-        <!-- input to store the users expenses amount -->
-        <input type = "number" id = "amount" placeholder = "$ Amount" required />
-        <!-- input to store the users expenses date -->
-        <input type = "date" id = "date" required />
-        <!-- dropdown to select the users expense category -->
-        <select id = "category" required>
-          <option value = "">Select Category</option>
-          <option value = "Food">Food</option>
-          <option value = "Gas">Gas</option>
-          <option value = "Rent/Mortgage">Rent</option>
-          <option value = "Other">Other</option>
-        </select>
-        <!-- input where the user can add a description, which is optional -->
-        <input type = "text" id = "description" placeholder = "(optional) Description" />
-        <!-- submit button so the user can add the expense -->
-        <button type = "submit">Add Expense</button>
-      </form>
-      <!-- page filter section for category filtering -->
-      <div class="filter">
-        <h3>Filter by: </h3>
-        <select id = "filter-category">
-          <option value = "All">All Categories</option>
-          <option value = "Food">Food</option>
-          <option value = "Gas">Gas</option>
-          <option value = "Rent/Mortgage">Rent</option>
-          <option value = "Other">Other</option>
-        </select>
-      </div>
-      <!-- display the expenses-list -->
-      <table id="expenses-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-        <!-- Rows will be dynamically inserted here -->
-        </tbody>
-      </table>
+  <!-- Main container for the content -->
+  <div class="container">
+    <!-- Page title -->
+    <h1>Expense Tracker</h1>
+
+    <!-- User expense input form -->
+    <form id="expenses-form">
+      <!-- Input for expense amount -->
+      <input type="number" id="amount" placeholder="$ Amount" required min="0" step="0.01" />
+      
+      <!-- Input for expense date -->
+      <input type="date" id="date" required />
+      
+      <!-- Dropdown to select expense category -->
+      <select id="category" required>
+        <option value="">Select Category</option>
+        <option value="Food">Food</option>
+        <option value="Gas">Gas</option>
+        <option value="Rent/Mortgage">Rent</option>
+        <option value="Other">Other</option>
+        <!-- New income category added -->
+        <option value="Income">Income</option>
+      </select>
+      
+      <!-- Optional description input -->
+      <input type="text" id="description" placeholder="(optional) Description" />
+      
+      <!-- Submit button to add expense/income -->
+      <button type="submit">Add Expense/Income</button>
+    </form>
+
+    <!-- Filter section to filter expenses by category -->
+    <div class="filter">
+      <h3>Filter by: </h3>
+      <select id="filter-category">
+        <option value="All">All Categories</option>
+        <option value="Food">Food</option>
+        <option value="Gas">Gas</option>
+        <option value="Rent/Mortgage">Rent</option>
+        <option value="Other">Other</option>
+        <option value="Income">Income</option>
+      </select>
     </div>
 
-    <!-- weekly total button -->
-	  <div class="weekly-sum">
-      <button type="button" onclick="goToWeeklyExpensePage()">View Weekly Summary</button>
-	  </div>
+    <!-- Table displaying the expenses and income -->
+    <table id="expenses-table" class="expenses-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Expense rows inserted here dynamically by JS -->
+      </tbody>
+    </table>
+  </div>
 
-    <!-- monthly expenses button -->
-    <div class = "weekly-sum">
-      <button type = "button" onclick = "goToMonthlyExpensePage()">View Monthly Summary</button>
-    </div>
+  <!-- Buttons linking to weekly and monthly summary pages -->
+  <div class="weekly-sum">
+    <button type="button" onclick="goToWeeklyExpensePage()">View Weekly Summary</button>
+    <button type="button" onclick="goToMonthlyExpensePage()">View Monthly Summary</button>
+  </div>
 
-    <!-- link to the external .js file -->
-    <script src ="js/script.js" defer></script>
-  </body>
-  </html>
+  <!-- Link to external JavaScript file -->
+  <script src="js/script.js" defer></script>
+</body>
+</html>
