@@ -6,9 +6,15 @@ viewing and filtering logged expenses.
 
 ## Features
 - Add expenses by filling out amount, date and category with an optional description
-- Filter expenses by category
+- Add income by filling out amount, date and category with optional description
+- Filter expenses/income by category
 - Shows a scrollable list of all expenses entered
 - Find out total spending for the current week
+- Search through weeks
+- Find out total spending for current month
+- Search through months
+- Edit and Delete expenses/income
+- Find out remaining balance of income and total expenses for month and week
 
 ---
 
@@ -26,6 +32,7 @@ Project_Group_1_Expense_Tracking_Website/
 │   └── js/
 │       ├── script.js       # Logic for Homepage
 │       ├── expense.js      # Logic for Expense Page
+│       ├── monthly.js      # Logic for Monthly Summary
 │       └── weeksum.js      # Logic for Weekly Summary
 ├── init.sql                # SQL Database File
 ├── server.js               # Express server setup
