@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset = "UTF-8"/>
-  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Weekly Expense Summary</title>
+  <!-- Link to external CSS stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Weekly Summary</h1>
 
-    <!-- Total weekly spending -->
-    <p id="week-total">Loading...</p>
+    <!-- Week selector input -->
+    <label for="week-select">Pick a date within the desired week:</label>
+    <input type="date" id="week-select" />
 
-    <!-- Table of weekly expenses by category -->
-    <table id="weekly-table">
+    <!-- Optional: display the date range of the selected week -->
+    <p id="week-range" style="font-style: italic; margin-top: 0.5em;"></p>
+
+    <!-- Table displaying weekly expenses by category -->
+    <table id="weekly-table" class="expenses-table">
       <thead>
         <tr>
           <th>Category</th>
@@ -22,14 +27,22 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Table rows will be added by JS -->
+        <!-- JS inserts expense category rows here -->
       </tbody>
+      <tfoot>
+        <!-- Remaining balance row -->
+        <tr>
+          <td><strong>Remaining Balance</strong></td>
+          <td id="remaining-balance">$0.00</td>
+        </tr>
+      </tfoot>
     </table>
 
-    <!-- Back to home button -->
+    <!-- Button to navigate back to home page -->
     <button onclick="backHome()">Back to Home</button>
   </div>
 
+  <!-- Link to external JS file -->
   <script src="js/weeksum.js" defer></script>
 </body>
 </html>
