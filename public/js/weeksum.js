@@ -1,85 +1,120 @@
-// go back to index.html - home
+// Navigate back to the home page
 function backHome() {
-	window.location.href = 'index.html';
+  window.location.href = 'index.html';
 }
 
-// calculate the total weekly expenses and category breakdown
-function calcWeeklyExpenses(expenses) {
-	// get the current date and time
-	const now = new Date();
+// Calculate weekly expenses and income within the 7-days
+function calcWeeklyExpenses(expenses, startWeek) {
+  // Calculate end of week (7 days after startWeek)
+  const endWeek = new Date(startWeek);
+  endWeek.setDate(startWeek.getDate() + 7);
 
-	// Represents the start of the week (most recent Sunday at 12:00 AM)
-	const startWeek = new Date(now);
-	startWeek.setDate(now.getDate() - now.getDay());
-	startWeek.setHours(0, 0, 0, 0); // Set time to 00:00:00.000
+  const categoryTotals = {};
+  let totalExpenses = 0;
+  let totalIncome = 0;
 
-	// Represents the end of the week (upcoming Sunday)
-	const endWeek = new Date(startWeek);
-	endWeek.setDate(startWeek.getDate() + 7);
+  for (const expense of expenses) {
+    const expenseDate = new Date(expense.date);
 
-	// Object to track total spent per category
-	const categoryTotals = {};
-	
-	// Variable to keep track of total spending this week
-	let total = 0;
+    // Include only expenses that fall within the week [startWeek, endWeek)
+    if (expenseDate >= startWeek && expenseDate < endWeek) {
+      const amount = parseFloat(expense.amount);
 
-	// Loop through all expenses
-	for (const expense of expenses) {
-		// Convert expense date to Date object
-		const expenseDate = new Date(expense.date);
+      if (expense.category === 'Income') {
+        totalIncome += amount;
+      } else {
+        totalExpenses += amount;
+        categoryTotals[expense.category] = (categoryTotals[expense.category] || 0) + amount;
+      }
+    }
+  }
 
-		// Check if expense falls within this week
-		if (expenseDate >= startWeek && expenseDate < endWeek) {
-			const amount = parseFloat(expense.amount);
-			total += amount;
-
-			// Add to category total
-			if (!categoryTotals[expense.category]) {
-				categoryTotals[expense.category] = 0;
-			}
-			categoryTotals[expense.category] += amount;
-		}
-	}
-
-	// Return both the total and the breakdown by category
-	return { total, categoryTotals };
+  return { totalExpenses, totalIncome, categoryTotals };
 }
 
-// On page load
-document.addEventListener('DOMContentLoaded', async () => {
-	// Get reference to elements
-	const totalEl = document.getElementById('week-total');
-	const tableBody = document.querySelector('#weekly-table tbody');
+// Fetch expenses and update the weekly summary table
+async function loadWeeklySummary(startWeek) {
+  const tableBody = document.querySelector('#weekly-table tbody');
+  const totalCell = document.getElementById('week-total');
+  const remainingBalanceEl = document.getElementById('remaining-balance');
 
-	try {
-		// Fetch all expenses from the backend API
-		const res = await fetch('/api/expenses');
-		if (!res.ok) throw new Error('Failed to fetch expenses from server');
+  try {
+    const res = await fetch('/api/expenses');
+    if (!res.ok) throw new Error('Failed to fetch expenses');
 
-		// Convert response to JSON
-		const expenses = await res.json();
+    const expenses = await res.json();
 
-		// Calculate total and category breakdown for the current week
-		const { total, categoryTotals } = calcWeeklyExpenses(expenses);
+    // Calculate totals for the selected week
+    const { totalExpenses, totalIncome, categoryTotals } = calcWeeklyExpenses(expenses, startWeek);
 
-		// Display the total spent this week
-		totalEl.textContent = `You spent $${total.toFixed(2)} this week`;
+    // Clear existing rows
+    tableBody.innerHTML = '';
 
-		// Clear previous table rows
-		tableBody.innerHTML = '';
+    // Add rows for each expense category
+    for (const [category, amount] of Object.entries(categoryTotals)) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${category}</td>
+        <td style="color: red;">$${amount.toFixed(2)}</td>
+      `;
+      tableBody.appendChild(row);
+    }
 
-		// Populate table with category-wise totals
-		for (const [category, amount] of Object.entries(categoryTotals)) {
-			const row = document.createElement('tr');
-			row.innerHTML = `
-				<td>${category}</td>
-				<td>$${amount.toFixed(2)}</td>
-			`;
-			tableBody.appendChild(row);
-		}
-	} catch (err) {
-		// Handle fetch or processing errors
-		console.error('Error loading weekly expenses:', err);
-		totalEl.textContent = 'Unable to load weekly data.';
-	}
+    // Add income row
+    const incomeRow = document.createElement('tr');
+    incomeRow.innerHTML = `
+      <td><strong>Income</strong></td>
+      <td><strong style="color: green;">$${totalIncome.toFixed(2)}</strong></td>
+    `;
+    incomeRow.classList.add('income-row');
+    tableBody.appendChild(incomeRow);
+
+    // Add total expenses row
+    const totalRow = document.createElement('tr');
+    totalRow.innerHTML = `
+      <td><strong>Total Expenses</strong></td>
+      <td><strong style="color: red;">$${totalExpenses.toFixed(2)}</strong></td>
+    `;
+    totalRow.classList.add('total-row');
+    tableBody.appendChild(totalRow);
+
+    // Calculate remaining balance
+    const remaining = totalIncome - totalExpenses;
+    const displayRemaining = remaining < 0 ? 0 : remaining;
+    remainingBalanceEl.textContent = `$${displayRemaining.toFixed(2)}`;
+
+  } catch (err) {
+    console.error('Error loading weekly expenses:', err);
+    tableBody.innerHTML = `<tr><td colspan="2">Unable to load data.</td></tr>`;
+    totalCell.textContent = '';
+    remainingBalanceEl.textContent = '';
+  }
+}
+
+// Initialize the week selector and load data for the current week on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const weekInput = document.getElementById('week-select');
+
+  // Default week set to the most recent Sunday
+  const now = new Date();
+  const defaultSunday = new Date(now);
+  defaultSunday.setDate(now.getDate() - now.getDay()); // Sunday of current week
+  defaultSunday.setHours(0, 0, 0, 0);
+  weekInput.valueAsDate = defaultSunday;
+
+  // Load weekly summary for the default week
+  loadWeeklySummary(defaultSunday);
+
+  // Update weekly summary when user selects a different week
+  weekInput.addEventListener('change', () => {
+    const selectedDate = new Date(weekInput.value);
+    if (isNaN(selectedDate)) return;
+
+    // Compute Sunday of the selected week
+    const sunday = new Date(selectedDate);
+    sunday.setDate(selectedDate.getDate() - selectedDate.getDay());
+    sunday.setHours(0, 0, 0, 0);
+
+    loadWeeklySummary(sunday);
+  });
 });
