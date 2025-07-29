@@ -1,6 +1,7 @@
 # CS 312 Group 1 Project: Expense Tracker Website
 A simple expense tracking application incorporating HTML, CSS, and JS along with running a server through Node.js & Express. Users can log expenses by the $ amount, date, category, and description, as well as
 viewing and filtering logged expenses.
+
 ##Group Members: Sean Weston, Colton Leighton, Brent Kenyon
 ---
 
