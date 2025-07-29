@@ -1,30 +1,57 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-  <meta charset = "UTF-8"/>
-  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
-  <title>Monthly Expenses Summary</title>
-  <!-- link to the external .css style sheet -->
-  <link rel = "stylesheet" href = "css/style.css"/>
-<head/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monthly Expense Summary</title>
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 <body>
-  <!-- main container for the content -->
-  <div class = "container>"
-    <h1>Monthly Expense Summary</h1>
+  <div class="container">
+    <h1>Monthly Summary</h1>
 
-    <!-- monthly chart expenses placeholder -->
-    <div id = "monthly-chart-summary">
-      <p>Loading all monthly expenses...</p>
-    <div/>
+    <!-- Month selector input -->
+    <label for="month-select">Choose a Month:</label>
+    <input type="month" id="month-select" />
 
-    <!-- back button for the main home page -->
-    <button onclick = "goBack()">Back to Expense Tracker</button>
+    <!-- Table displaying monthly expenses grouped by category -->
+    <table id="monthly-table" class="expenses-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount Spent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS inserts category expense rows here -->
+      </tbody>
+      <tfoot>
+        <!-- Row showing income, hidden if no income -->
+        <tr id="income-row" style="display: none;">
+          <td><strong>Income</strong></td>
+          <td id="income-value">$0.00</td>
+        </tr>
+
+        <!-- Row showing total expenses -->
+        <tr>
+          <td><strong>Total</strong></td>
+          <td id="month-total-bottom">$0.00</td>
+        </tr>
+
+        <!-- Row showing remaining balance after expenses -->
+        <tr>
+          <td><strong>Remaining Balance</strong></td>
+          <td id="remaining-balance">$0.00</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Button to navigate back to home/index page -->
+    <button onclick="goBack()">Back to Home</button>
   </div>
 
-  <script>
-  function goBack() {
-    window.location.href = "index.html";
-  }
-  </script>
+  <!-- Link to external JavaScript file -->
+  <script src="js/monthly.js" defer></script>
 </body>
 </html>
