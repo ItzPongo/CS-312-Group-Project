@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Expense Detail</title>
+  <!-- Link to external stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="container">
     <h1>Expense Details</h1>
+
+    <!-- Expense detail form for editing or deleting -->
     <form id="expense-form">
       <label for="date">Date:</label>
       <input type="date" id="date" required />
@@ -22,15 +25,19 @@
       <label for="description">Description:</label>
       <textarea id="description" rows="3"></textarea>
 
-      <button type="submit">Update Expense</button>
-      <button type="button" id="delete-btn">Delete Expense</button>
+      <!-- Submit button to update expense/income -->
+      <button type="submit">Update Expense/Income</button>
+      <!-- Button to delete expense/income -->
+      <button type="button" id="delete-btn">Delete Expense/Income</button>
     </form>
 
+    <!-- Link back to the main page -->
     <div style="margin-top: 1em;">
       <a href="index.html">← Back to Home</a>
     </div>
   </div>
 
+  <!-- Link to external JavaScript file -->
   <script src="js/expense.js" defer></script>
 </body>
 </html>
